@@ -45,6 +45,7 @@ app.post('/webhook', (req, res) => {
     if(action && section) {
         switch(action) {
             case 'find-grades': {
+                console.log('get-certificate');                
                 var sectionLowerCase = section.toLowerCase();
                 database.ref('/actions/').once('value').then(function(snapshot) {
                     var actions = snapshot;
@@ -59,8 +60,10 @@ app.post('/webhook', (req, res) => {
                         "fulfillmentText" : fullResponse
                     })); 
                 });
+                break;
             }
             case 'get-certificate': {
+                console.log('get-certificate');
                 var sectionLowerCase = section.toLowerCase();
                 database.ref('/actions/').once('value').then(function(snapshot) {
                     var actions = snapshot;
@@ -75,11 +78,14 @@ app.post('/webhook', (req, res) => {
                         "fulfillmentText" : fullResponse
                     })); 
                 });
+                break;
             }
             default: {
+                console.log('default');
                 res.send(JSON.stringify({
                     "fulfillmentText" : "Sorry, I can't find an answer for you"
                 }));
+                break;
             }
         }
 
