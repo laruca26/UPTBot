@@ -1,0 +1,22 @@
+{
+  "name": "uptbot",
+  "version": "1.0.0",
+  "description": "upt bot",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "firebase-admin": "^6.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  },
+  "engines": {
+    "node": "8.11.1"
+  },
+  "author": "Raluca",
+  "license": "ISC"
+}
