@@ -29,7 +29,7 @@ app.get('/test', (req, res) => {
 });
 
 app.post('/webhook', (req, res) => {
-    var a = req.body.result.parameters['action'];
+    var a = req.body.result.action;
     res.setHeader('Content-Type', 'application/json');
     // var faculties = undefined;
     // database.ref('/faculties/').once('value').then(function(snapshot) {
@@ -40,7 +40,7 @@ app.post('/webhook', (req, res) => {
     //     })); 
     // });
     res.send(JSON.stringify({
-        "fulfillmentText" : JSON.stringify(a)
+        "fulfillmentText" : a
     }));
 });
 
