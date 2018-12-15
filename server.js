@@ -1,5 +1,6 @@
 const admin = require('firebase-admin');
 const express = require('express');
+const bodyParser = require("body-parser");
 
 const serviceAccount = {
   "type": "service_account",
@@ -23,6 +24,15 @@ const config = {
 admin.initializeApp(config);
 const database  = admin.database();
 const app = express();
+
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+
+/**bodyParser.json(options)
+ * Parses the text as JSON and exposes the resulting object on req.body.
+ */
+app.use(bodyParser.json());
 
 app.get('/test', (req, res) => {
     res.send('Hello World');
