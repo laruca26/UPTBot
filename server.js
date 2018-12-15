@@ -40,7 +40,7 @@ app.get('/test', (req, res) => {
 
 app.post('/webhook', (req, res) => {
     var action = req.body.queryResult.action;
-    var section = req.body.parameters.section;
+    var section = req.body.queryResult.parameters.section;
     res.setHeader('Content-Type', 'application/json');
     if(action && section && action === 'find-grades') {
         database.ref('/actions/').once('value').then(function(snapshot) {
