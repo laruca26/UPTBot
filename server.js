@@ -42,21 +42,47 @@ app.post('/webhook', (req, res) => {
     var action = req.body.queryResult.action;
     var section = req.body.queryResult.parameters.section;
     res.setHeader('Content-Type', 'application/json');
-    if(action && section && action === 'find-grades') {
-        var sectionLowerCase = section.toLowerCase();
-        database.ref('/actions/').once('value').then(function(snapshot) {
-            var actions = snapshot;
-            var response = actions.child(action).child(sectionLowerCase).val();
-            var fullResponse = '';
-            if(response != null) {
-                fullResponse = response; 
-            } else {
-                fullResponse = "Sorry, I can't find an answer for you";
+    if(action && section) {
+        switch(action) {
+            case 'find-grades': {
+                var sectionLowerCase = section.toLowerCase();
+                database.ref('/actions/').once('value').then(function(snapshot) {
+                    var actions = snapshot;
+                    var response = actions.child(action).child(sectionLowerCase).val();
+                    var fullResponse = '';
+                    if(response != null) {
+                        fullResponse = response; 
+                    } else {
+                        fullResponse = "Sorry, I can't find an answer for you";
+                    }
+                    res.send(JSON.stringify({
+                        "fulfillmentText" : fullResponse
+                    })); 
+                });
             }
-            res.send(JSON.stringify({
-                "fulfillmentText" : fullResponse
-            })); 
-        });
+            case 'get-certificate': {
+                var sectionLowerCase = section.toLowerCase();
+                database.ref('/actions/').once('value').then(function(snapshot) {
+                    var actions = snapshot;
+                    var response = actions.child(action).child(sectionLowerCase).val();
+                    var fullResponse = '';
+                    if(response != null) {
+                        fullResponse = response; 
+                    } else {
+                        fullResponse = "Sorry, I can't find an answer for you";
+                    }
+                    res.send(JSON.stringify({
+                        "fulfillmentText" : fullResponse
+                    })); 
+                });
+            }
+            default: {
+                res.send(JSON.stringify({
+                    "fulfillmentText" : "Sorry, I can't find an answer for you"
+                }));
+            }
+        }
+
     }
     else {
         res.send(JSON.stringify({
