@@ -29,15 +29,19 @@ app.get('/test', (req, res) => {
 });
 
 app.post('/webhook', (req, res) => {
+    var a = req.body.result.parameters['action'];
     res.setHeader('Content-Type', 'application/json');
-    var faculties = undefined;
-    database.ref('/faculties/').once('value').then(function(snapshot) {
-        faculties = snapshot;
-        console.log(faculties.child('AC').child('Name').val());
-        res.send(JSON.stringify({
-            "fulfillmentText" : faculties.child('AC').child('Name').val()
-        })); 
-    });
+    // var faculties = undefined;
+    // database.ref('/faculties/').once('value').then(function(snapshot) {
+    //     faculties = snapshot;
+    //     console.log(faculties.child('AC').child('Name').val());
+    //     res.send(JSON.stringify({
+    //         "fulfillmentText" : faculties.child('AC').child('Name').val()
+    //     })); 
+    // });
+    res.send(JSON.stringify({
+        "fulfillmentText" : JSON.stringify(a)
+    }));
 });
 
 function readFormDB(collection, collectionObjects) {
