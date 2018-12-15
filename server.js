@@ -116,6 +116,24 @@ app.post('/webhook', (req, res) => {
                 });
                 break;
             }
+            case 'apply-scholarship': {
+                console.log('get-certificate');
+                var sectionLowerCase = section.toLowerCase();
+                database.ref('/actions/').once('value').then(function(snapshot) {
+                    var actions = snapshot;
+                    var response = actions.child(action).child(sectionLowerCase).val();
+                    var fullResponse = '';
+                    if(response != null) {
+                        fullResponse = response; 
+                    } else {
+                        fullResponse = "Sorry, I can't find an answer for you";
+                    }
+                    res.send(JSON.stringify({
+                        "fulfillmentText" : fullResponse
+                    })); 
+                });
+                break;
+            }
             default: {
                 console.log('default');
                 res.send(JSON.stringify({
