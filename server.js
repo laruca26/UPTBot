@@ -39,19 +39,29 @@ app.get('/test', (req, res) => {
 });
 
 app.post('/webhook', (req, res) => {
-    var a = req.body.queryResult.action;
+    var action = req.body.queryResult.action;
+    var section = req.body.parameters.section;
     res.setHeader('Content-Type', 'application/json');
-    // var faculties = undefined;
-    // database.ref('/faculties/').once('value').then(function(snapshot) {
-    //     faculties = snapshot;
-    //     console.log(faculties.child('AC').child('Name').val());
-    //     res.send(JSON.stringify({
-    //         "fulfillmentText" : faculties.child('AC').child('Name').val()
-    //     })); 
-    // });
-    res.send(JSON.stringify({
-        "fulfillmentText" : a
-    }));
+    if(action && section && action === 'find-grades') {
+        database.ref('/actions/').once('value').then(function(snapshot) {
+            var actions = snapshot;
+            var response = actions.child(action).child(section).val();
+            var fullResponse = '';
+            if(response) {
+                fullResponse = response; 
+            } else {
+                fullResponse = "Sorry, I can't find an answer for you";
+            }
+            res.send(JSON.stringify({
+                "fulfillmentText" : response
+            })); 
+        });
+    }
+    else {
+        res.send(JSON.stringify({
+            "fulfillmentText" : "Sorry, I can't find an answer for you"
+        }));
+    }
 });
 
 function readFormDB(collection, collectionObjects) {
