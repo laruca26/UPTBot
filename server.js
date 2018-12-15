@@ -29,7 +29,7 @@ app.get('/test', (req, res) => {
 });
 
 app.post('/webhook', (req, res) => {
-    var a = req.body.result.action;
+    var a = req.body.queryResult.action;
     res.setHeader('Content-Type', 'application/json');
     // var faculties = undefined;
     // database.ref('/faculties/').once('value').then(function(snapshot) {
