@@ -42,108 +42,25 @@ app.post('/webhook', (req, res) => {
     var action = req.body.queryResult.action;
     var section = req.body.queryResult.parameters.section;
     res.setHeader('Content-Type', 'application/json');
-    if(action && section) {
-        switch(action) {
-            case 'find-grades': {
-                console.log('get-certificate');                
-                var sectionLowerCase = section.toLowerCase();
-                database.ref('/actions/').once('value').then(function(snapshot) {
-                    var actions = snapshot;
-                    var response = actions.child(action).child(sectionLowerCase).val();
-                    var fullResponse = '';
-                    if(response != null) {
-                        fullResponse = response; 
-                    } else {
-                        fullResponse = "Sorry, I can't find an answer for you";
-                    }
-                    res.send(JSON.stringify({
-                        "fulfillmentText" : fullResponse
-                    })); 
-                });
-                break;
-            }
-            case 'get-certificate': {
-                console.log('get-certificate');
-                var sectionLowerCase = section.toLowerCase();
-                database.ref('/actions/').once('value').then(function(snapshot) {
-                    var actions = snapshot;
-                    var response = actions.child(action).child(sectionLowerCase).val();
-                    var fullResponse = '';
-                    if(response != null) {
-                        fullResponse = response; 
-                    } else {
-                        fullResponse = "Sorry, I can't find an answer for you";
-                    }
-                    res.send(JSON.stringify({
-                        "fulfillmentText" : fullResponse
-                    })); 
-                });
-                break;
-            }
-            case 'pay-fee': {
-                console.log('get-certificate');
-                var sectionLowerCase = section.toLowerCase();
-                database.ref('/actions/').once('value').then(function(snapshot) {
-                    var actions = snapshot;
-                    var response = actions.child(action).child(sectionLowerCase).val();
-                    var fullResponse = '';
-                    if(response != null) {
-                        fullResponse = response; 
-                    } else {
-                        fullResponse = "Sorry, I can't find an answer for you";
-                    }
-                    res.send(JSON.stringify({
-                        "fulfillmentText" : fullResponse
-                    })); 
-                });
-                break;
-            }
-            case 'sign-contract': {
-                console.log('get-certificate');
-                var sectionLowerCase = section.toLowerCase();
-                database.ref('/actions/').once('value').then(function(snapshot) {
-                    var actions = snapshot;
-                    var response = actions.child(action).child(sectionLowerCase).val();
-                    var fullResponse = '';
-                    if(response != null) {
-                        fullResponse = response; 
-                    } else {
-                        fullResponse = "Sorry, I can't find an answer for you";
-                    }
-                    res.send(JSON.stringify({
-                        "fulfillmentText" : fullResponse
-                    })); 
-                });
-                break;
-            }
-            case 'apply-scholarship': {
-                console.log('get-certificate');
-                var sectionLowerCase = section.toLowerCase();
-                database.ref('/actions/').once('value').then(function(snapshot) {
-                    var actions = snapshot;
-                    var response = actions.child(action).child(sectionLowerCase).val();
-                    var fullResponse = '';
-                    if(response != null) {
-                        fullResponse = response; 
-                    } else {
-                        fullResponse = "Sorry, I can't find an answer for you";
-                    }
-                    res.send(JSON.stringify({
-                        "fulfillmentText" : fullResponse
-                    })); 
-                });
-                break;
-            }
-            default: {
-                console.log('default');
+    var actionsPool = ["find-grades","get-certificate","pay-fee","sign-contract","apply-scholarship"];
+    if(action && section && (actionsPool.indexOf(action) >-1)) {
+        console.log('get-certificate');                
+            var sectionLowerCase = section.toLowerCase();
+            database.ref('/actions/').once('value').then(function(snapshot) {  
+                var actions = snapshot;
+                var response = actions.child(action).child(sectionLowerCase).val();
+                var fullResponse = '';
+                if(response != null) {
+                    fullResponse = response; 
+                } else {
+                    fullResponse = "Sorry, I can't find an answer for you";
+                }
                 res.send(JSON.stringify({
-                    "fulfillmentText" : "Sorry, I can't find an answer for you"
-                }));
-                break;
-            }
+                    "fulfillmentText" : fullResponse
+                })); 
+            });       
         }
-
-    }
+    
     else {
         res.send(JSON.stringify({
             "fulfillmentText" : "Sorry, I can't find an answer for you"
